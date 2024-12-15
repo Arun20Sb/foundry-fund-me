@@ -1,66 +1,101 @@
-## Foundry
+# Fund Me
 
-**Foundry is a blazing fast, portable and modular toolkit for Ethereum application development written in Rust.**
+# Getting Started
 
-Foundry consists of:
+## Requirements
 
--   **Forge**: Ethereum testing framework (like Truffle, Hardhat and DappTools).
--   **Cast**: Swiss army knife for interacting with EVM smart contracts, sending transactions and getting chain data.
--   **Anvil**: Local Ethereum node, akin to Ganache, Hardhat Network.
--   **Chisel**: Fast, utilitarian, and verbose solidity REPL.
+- [git]
+  - Verify installation: git --version (e.g., git version x.x.x)
+- [foundry]
+  - Verify installation: forge --version (e.g., forge 0.2.0 (816e00b 2023-03-16T00:05:26.396218Z))
 
-## Documentation
 
-https://book.getfoundry.sh/
+## Quickstart
 
-## Usage
-
-### Build
-
-```shell
-$ forge build
+```
+git clone 
+cd foundry-fund-me
 ```
 
-### Test
+# Usage
 
-```shell
-$ forge test
+## Deploy
+
+```
+forge script script/DeployFundMe.s.sol
 ```
 
-### Format
+## Testing
 
-```shell
-$ forge fmt
+1. Unit
+2. Integration
+3. Forked
+4. Staging
+
+### To execute tests:
+
+```
+forge test
+```
+or 
+
+### To run specific test functions matching a regex pattern:
+
+```
+forge test --match-test testFunctionName
 ```
 
-### Gas Snapshots
+or
 
-```shell
-$ forge snapshot
+### To test with forked state:
+
+```
+forge test --fork-url $SEPOLIA_RPC_URL
 ```
 
-### Anvil
+### Test Coverage
 
-```shell
-$ anvil
+```
+forge coverage
 ```
 
-### Deploy
+## Scripts
 
-```shell
-$ forge script script/Counter.s.sol:CounterScript --rpc-url <your_rpc_url> --private-key <your_private_key>
+After deploying to a network (local or testnet), use scripts for interactions. 
+
+Using cast deployed locally example: 
+
+```
+cast send <FUNDME_CONTRACT_ADDRESS> "fund()" --value 0.1ether --private-key <PRIVATE_KEY>
 ```
 
-### Cast
-
-```shell
-$ cast <subcommand>
+or
+```
+forge script script/Interactions.s.sol:FundFundMe --rpc-url sepolia  --private-key $PRIVATE_KEY  --broadcast
+forge script script/Interactions.s.sol:WithdrawFundMe --rpc-url sepolia  --private-key $PRIVATE_KEY  --broadcast
 ```
 
-### Help
+### Withdraw
 
-```shell
-$ forge --help
-$ anvil --help
-$ cast --help
+```
+cast send <FUNDME_CONTRACT_ADDRESS> "withdraw()"  --private-key <PRIVATE_KEY>
+```
+
+## Estimate gas
+
+You can estimate how much gas things cost by running:
+
+```
+forge snapshot
+```
+
+And you'll see an output file called `.gas-snapshot`
+
+
+# Formatting
+
+
+To run code formatting:
+```
+forge fmt
 ```
